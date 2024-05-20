@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message newsBit {
+  string title = 1;
+  string channel = 2;
+  string transcript = 3;
+  string category = 4;
+  string publication_date = 5;
+  string video_url = 6;
+  string image = 7;
+  string guid = 8;
+}

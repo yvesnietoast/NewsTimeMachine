@@ -1,0 +1,98 @@
+
+<head><script src="https://cdn.tailwindcss.com"></script></head>
+<div class="flex h-full">
+  
+    <section class="relative w-full py-9">
+        <!-- CSRF Token -->
+        {% csrf_token %}
+
+        <!-- Area for displaying API results -->
+        <div id="api-results" class="bg-white pt-16 px-4 site-content prompt-content max-w-full"></div>
+        ..
+        
+        <!-- Input and Button elements side by side -->
+        <div class="flex items-center absolute bottom-0 p-4 w-full bg-gray-50">
+            <input type="text" id="input-field" name="user_input" placeholder="Enter something..."/>
+
+            <button id="submit-button" class="bg-blue-500 text-white p-2 rounded relative">
+                <div id="spinner" class="hidden absolute top-0 left-0 right-0 bottom-0 bg-blue-500 flex items-center justify-center">
+                    <div class="loader"></div>
+                </div>
+            </button>
+        </div>
+        ..
+    </section>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const submitButton = document.getElementById('submit-button');
+    const inputField = document.getElementById('input-field');
+    const spinner = document.getElementById('spinner');
+    const apiResults = document.getElementById('api-results');
+
+    submitButton.addEventListener('click', function (e) {
+      e.preventDefault();
+      spinner.classList.remove('hidden');  // Show spinner
+
+      // Close any existing EventSource connections
+      if (window.source) {
+        window.source.close();
+      }
+
+      // Initialize the EventSource with the input data as a query parameter
+      const content = encodeURIComponent(inputField.value);
+      window.source = new EventSource(`/api/ai/stream?content=${content}`);
+
+      window.source.onmessage = function (event) {
+        // Handle the streamed data here
+        const data = JSON.parse(event.data);
+        apiResults.innerHTML += data.content;  // Append the streamed data to the results div
+        spinner.classList.add('hidden');  // Hide spinner
+      };
+
+      window.source.onerror = function (event) {
+        console.error("EventSource failed:", event);
+        spinner.classList.add('hidden');  // Hide spinner
+        window.source.close();  // Close the EventSource connection
+      };
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const formatButton = document.getElementById('format-button');
+    const apiResults = document.getElementById('api-results');
+    const renderer = new marked.Renderer();
+
+    renderer.code = function (code, language) {
+      return `<pre><code class="${language || ''}">${code}</code></pre>`;
+    };
+
+    marked.setOptions({renderer: renderer, breaks: true,});
+
+    formatButton.addEventListener('click', function () {
+      // Get the current content of #api-results
+      const currentContent = apiResults.innerHTML;
+
+      // Parse the content using marked.js
+      const formattedContent = marked.parse(currentContent);
+
+      // Update the #api-results with the formatted content
+      apiResults.innerHTML = `<div class="code-container">${formattedContent}</div>`;
+    });
+  });
+
+</script>
+<style>
+    #api-results pre {
+        max-width: 100%;
+        overflow-x: auto; /* Add horizontal scrollbar if necessary */
+    }
+
+    .code-container {
+        max-width: 100%; /* Adjust the maximum width as needed */
+        overflow-x: auto; /* Add horizontal scrollbar if necessary */
+    }
+
+    .code-container pre {
+        white-space: pre-wrap; /* Preserve line breaks and wrap text */
+    }
+</style>

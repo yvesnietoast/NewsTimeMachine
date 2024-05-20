@@ -1,0 +1,65 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Latest{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-flags.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-payments.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-vendors.min.css">
+
+</head>
+<body>
+
+    <div class="page">
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="card">
+              <div class="card-body">
+                <div id="table-default" class="table-responsive table-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <!-- <th><button class="table-sort" data-sort="sort-title">ID</button></th> -->
+                        <th><button class="table-sort" data-sort="sort-title">Title</button></th>
+                        <th><button class="table-sort" data-sort="sort-channel">Channel</button></th>
+                        <th><button class="table-sort" data-sort="sort-category">Category</button></th>
+                        <th><button class="table-sort" data-sort="sort-date">Date</button></th>
+                        <th><button class="table-sort" data-sort="sort-url">Video URL</button></th>
+                        <th><button class="table-sort" data-sort="sort-image">Image</button></th>
+                        <th><button class="table-sort" data-sort="sort-guid">GUID</button></th>
+                        <th><button class="table-sort " data-sort="sort-transcript">Transcript</button></th>
+                        <th><button class="table-sort " data-sort="sort-transcript">Summary</button></th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        {% for i in newsBits%}
+                        <tr>
+                            <!-- //<td class="sort-title">{{i.id}}</td> -->
+                            <td class="sort-title">{{i.title}}</td>
+                            <td class="sort-name">{{i.channel}}</td>
+                            <td class="sort-name">{{i.category}}</td>
+                            <td class="sort-name">{{i.publication_date}}</td>
+                            <td class="sort-name"><a href="{{i.video_url}}">{{i.video_url}}</a></td>
+                            <td class="sort-name"><img src="{{i.image}}" alt="{{i.image}}"></td>
+                            <td class="sort-name">{{i.guid}}</td>
+                            <td class="sort-name text-nowrap"><textarea name="" id="" cols="30" rows="10">{{i.transcript}}</textarea></td>
+                            <td class="sort-name text-nowrap"><textarea name="" id="" cols="30" rows="10">{{i.summary}}</textarea></td>
+
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+    </div>
+    <script src="../../../../assets/static/tabler/dist/js/tabler.min.js"></script>
+</body>
+</html>
