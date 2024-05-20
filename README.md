@@ -1,7 +1,12 @@
 # Yves Nieto
+
+## DEMO
+https://github.com/yvesnietoast/cs482-assignments/assets/114695383/62fa13a0-7b11-475b-9741-01abfdc08171
+
 ## Milestone 1: Django site
 
 Django-Ninja Running on port 8000 with postgres, redis, celery and Jetstream.
+
 
 ![Django-Ninja](./assets/imgs/django-ninja.png)
 
@@ -85,3 +90,4 @@ With this I was able to create a API endpoint to create the chat view.
 ## Milestone:5
 
 Below is the video demo
+https://github.com/yvesnietoast/cs482-assignments/assets/114695383/62fa13a0-7b11-475b-9741-01abfdc08171
